@@ -7,10 +7,10 @@
         </div>
         <div class="createQuestion" v-if="questName!=''">
             <ul>
-                <li v-for="(input, index) in inputsQuestion">
-                    <input type="text" class="inpQuestion" v-model="input.questionValue" placeholder="Вопрос"> </br>
+                <li v-for="(input, index) in inputsQuestion" :key="index">
+                    <input type="text" class="inpQuestion" v-model="input.questionValue" placeholder="Вопрос"> <br>
                     <!-- <p> {{input.questionValue}} </p> -->
-                    <input type="text" class="inpQuestion" v-model="input.answer" placeholder="Ответ"> </br>
+                    <input type="text" class="inpQuestion" v-model="input.answer" placeholder="Ответ"> <br>
                     <!-- <p> {{input.answer}} </p> -->
                     <button @click="deleteRow(index)">Удалить</button>
                 </li>
@@ -20,10 +20,15 @@
         </div>
         <p> Вопросы: {{quesions}} </p>
         <p> Ответы: {{answers}} </p>
+
+        <button @click="sendIdentity">Отправить</button>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 export default {
     data(){
         return{
@@ -47,14 +52,23 @@ export default {
             this.inputsQuestion.splice(index,1)
             this.quesions.splice(index)
             this.answers.splice(index)
-
         },
         addQuestions(){
            for(let i=0;i<this.inputsQuestion.length;i++){
                 this.quesions.push(this.inputsQuestion[i].questionValue)
                 this.answers.push(this.inputsQuestion[i].answer)
             }  
-        }
+        },
+        sendIdentity: async function() {
+            const str = JSON.stringify(this.quesions);
+                axios.post('/a.php',str)
+                    .then(function(response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+        },
     }
 }
 </script>
