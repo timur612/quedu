@@ -1,6 +1,8 @@
 <template>
     <div>
+	
         <div class="createQuest">
+
             <input type="text" v-model="questName" placeholder="Название квеста" id="qName">
             <button v-on:click="addNameQuest()">Добавить</button>
             <h1 v-if="questName!=''">Название квеста - {{questName}}</h1>
@@ -18,12 +20,12 @@
             <button @click="addRow">Добавить вопрос</button>
             <button @click="addQuestions">Готово</button>
         </div>
+		
         <p> Вопросы: {{quesions}} </p>
         <p> Ответы: {{answers}} </p>
 
         <button @click="sendIdentity">Отправить</button>
-
-        <div> {{message}} </div>
+	<div> {{message}} </div>
     </div>
 </template>
 
@@ -38,7 +40,7 @@ export default {
             quesions: [],
             answers: [],
             inputsQuestion:[],
-            message: ""
+			message : ""
         }
     },
     methods:{
@@ -63,24 +65,26 @@ export default {
             }  
         },
         sendIdentity: async function() {
-            var param = {
+         var param = {
                     questName: this.questName,
                     quesions: this.quesions,
                     answers: this.answers,
-                    //inputsQuestion: this.inputsQuestion,
-                    //message: this.message
+                    inputsQuestion: this.inputsQuestion,
+                    message: this.message
 
             };
             const str = JSON.stringify(param);
-            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+			let message;
                 axios.post('http://localhost/a.php',str)
                     .then(function(response) {
                         console.log(response.data);
-                        this.message = response.data
+						message = response.data; 
                     })
+					
                     .catch(function (error) {
                         console.log(error);
                     });
+					this.message=message;
         },
     }
 }

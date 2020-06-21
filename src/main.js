@@ -1,4 +1,4 @@
-import Vue from 'vue'  // raz dva tri
+import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -14,4 +14,3 @@ new Vue({
   store,
   render: function (h) { return h(App) }
 }).$mount('#app')
-
