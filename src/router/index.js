@@ -25,7 +25,8 @@ Vue.use(VueRouter)
     path: '/create-quest',
     name: 'Create Quest',
     component: CreateQuest
-  }
+  },
+  
 ]
 
 const router = new VueRouter({

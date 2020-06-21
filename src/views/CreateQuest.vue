@@ -22,6 +22,8 @@
         <p> Ответы: {{answers}} </p>
 
         <button @click="sendIdentity">Отправить</button>
+
+        <div> {{message}} </div>
     </div>
 </template>
 
@@ -35,7 +37,8 @@ export default {
             questName: "",
             quesions: [],
             answers: [],
-            inputsQuestion:[]
+            inputsQuestion:[],
+            message: ""
         }
     },
     methods:{
@@ -60,10 +63,20 @@ export default {
             }  
         },
         sendIdentity: async function() {
-            const str = JSON.stringify(this.quesions);
-                axios.post('/a.php',str)
+            var param = {
+                    questName: this.questName,
+                    quesions: this.quesions,
+                    answers: this.answers,
+                    //inputsQuestion: this.inputsQuestion,
+                    //message: this.message
+
+            };
+            const str = JSON.stringify(param);
+            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+                axios.post('http://localhost/a.php',str)
                     .then(function(response) {
                         console.log(response.data);
+                        this.message = response.data
                     })
                     .catch(function (error) {
                         console.log(error);
