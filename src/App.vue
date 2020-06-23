@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/create-quest">Создать квест</router-link>
+      <router-link to="/create-quest">Создать квест</router-link> |
+      <router-link to="/play-quest">Играть в квест</router-link>
     </div>
     <router-view/>
   </div>

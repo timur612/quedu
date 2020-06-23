@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import CreateQuest from '../views/CreateQuest.vue'
+import PlayQuest from '../views/PlayQuest.vue'
+import Quest from '../views/Quest.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +28,16 @@ Vue.use(VueRouter)
     name: 'Create Quest',
     component: CreateQuest
   },
+  {
+    path: '/play-quest',
+    name: 'Play Quest',
+    component: PlayQuest
+  },
+  {
+    path: '/quest',
+    name: 'Quest',
+    component: Quest
+  }
   
 ]
 

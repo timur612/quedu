@@ -63,20 +63,18 @@ export default {
             }  
         },
         sendIdentity: async function() {
-            var param = {
+            let param = {
                     questName: this.questName,
                     quesions: this.quesions,
                     answers: this.answers,
                     //inputsQuestion: this.inputsQuestion,
                     //message: this.message
-
             };
             const str = JSON.stringify(param);
-            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-                axios.post('http://localhost/a.php',str)
+            axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+                axios.post('http://localhost/quedu_server/a.php',str)
                     .then(function(response) {
                         console.log(response.data);
-                        this.message = response.data
                     })
                     .catch(function (error) {
                         console.log(error);
