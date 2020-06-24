@@ -103,8 +103,13 @@ export default {
                     //message: this.message
             };
             const str = JSON.stringify(param);
+<<<<<<< Updated upstream
     //        axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
                 axios.post('http://localhost/quedu_server/test.php',str)
+=======
+          //  axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+                axios.post('http://localhost/quedu_server/a.php',str)
+>>>>>>> Stashed changes
                     .then(function(response) {
                         console.log(response.data);
                     })
