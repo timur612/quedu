@@ -33,7 +33,7 @@ export default {
                             for(let i=0;i<response.data.Name.length;i++){
                                 this.quests.push({id:response.data.Id[i][0],name:response.data.Name[i][0]})
                             }
-                        },500)
+                        },1)
                     })
                     .catch(function (error) {
                         console.log(error);
