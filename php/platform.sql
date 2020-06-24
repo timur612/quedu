@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 22 2020 г., 10:50
+-- Время создания: Июн 24 2020 г., 10:28
 -- Версия сервера: 10.3.13-MariaDB-log
 -- Версия PHP: 7.1.32
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `answers` (
-  `Quest_id` int(11) NOT NULL,
+  `Id` int(11) NOT NULL,
   `Question_id` int(11) NOT NULL,
-  `User_id` int(11) NOT NULL,
-  `Answer` tinyint(4) NOT NULL
+  `Answer` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `True_answer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -46,7 +46,6 @@ CREATE TABLE `quest` (
   `Name` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `Author_id` int(11) DEFAULT NULL,
   `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Reward` int(11) DEFAULT NULL,
   `Entry_Level` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -54,9 +53,9 @@ CREATE TABLE `quest` (
 -- Дамп данных таблицы `quest`
 --
 
-INSERT INTO `quest` (`Id`, `Name`, `Author_id`, `Description`, `Reward`, `Entry_Level`) VALUES
-(1, 'sdfgsdfg', NULL, NULL, NULL, NULL),
-(2, 'Квест о математике', NULL, NULL, NULL, NULL);
+INSERT INTO `quest` (`Id`, `Name`, `Author_id`, `Description`, `Entry_Level`) VALUES
+(1, 'лололол', 0, 'лололол', 1),
+(2, 'Квест 2', 0, 'л', 1);
 
 -- --------------------------------------------------------
 
@@ -69,19 +68,33 @@ CREATE TABLE `question` (
   `Quest_id` int(11) NOT NULL,
   `Number_id` int(11) NOT NULL,
   `Question` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Answer` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `Time` int(11) DEFAULT NULL,
-  `Attempts` int(11) DEFAULT NULL
+  `Attempts` int(11) DEFAULT NULL,
+  `Reward` int(10) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `question`
 --
 
-INSERT INTO `question` (`Id`, `Quest_id`, `Number_id`, `Question`, `Answer`, `Time`, `Attempts`) VALUES
-(1, 1, 0, 'Вопрос', 'Ответ №1', NULL, NULL),
-(2, 2, 0, '2+2?', '4', NULL, NULL),
-(3, 2, 1, '3+3?', '6', NULL, NULL);
+INSERT INTO `question` (`Id`, `Quest_id`, `Number_id`, `Question`, `Time`, `Attempts`, `Reward`) VALUES
+(1, 1, 0, 'Вопрос 1', 0, 1, 1),
+(2, 1, 1, 'Вопрос 2', 0, 1, 1),
+(3, 2, 0, 'Вопрос 1 для квеста 2', 0, 1, 1),
+(4, 2, 1, 'Вопрос 2 для квеста 2', 0, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `quest_answer`
+--
+
+CREATE TABLE `quest_answer` (
+  `Id` int(11) NOT NULL,
+  `User_id` int(11) NOT NULL,
+  `Quest_id` int(11) NOT NULL,
+  `Summary` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -99,6 +112,19 @@ CREATE TABLE `users` (
   `Author` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `user_answers`
+--
+
+CREATE TABLE `user_answers` (
+  `Quest_id` int(11) NOT NULL,
+  `Question_id` int(11) NOT NULL,
+  `User_id` int(11) NOT NULL,
+  `Answer` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -107,7 +133,7 @@ CREATE TABLE `users` (
 -- Индексы таблицы `answers`
 --
 ALTER TABLE `answers`
-  ADD PRIMARY KEY (`Quest_id`);
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Индексы таблицы `quest`
@@ -122,10 +148,22 @@ ALTER TABLE `question`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Индексы таблицы `quest_answer`
+--
+ALTER TABLE `quest_answer`
+  ADD PRIMARY KEY (`Id`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`Id`);
+
+--
+-- Индексы таблицы `user_answers`
+--
+ALTER TABLE `user_answers`
+  ADD PRIMARY KEY (`Quest_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -135,7 +173,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `Quest_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `quest`
@@ -147,13 +185,25 @@ ALTER TABLE `quest`
 -- AUTO_INCREMENT для таблицы `question`
 --
 ALTER TABLE `question`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT для таблицы `quest_answer`
+--
+ALTER TABLE `quest_answer`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `user_answers`
+--
+ALTER TABLE `user_answers`
+  MODIFY `Quest_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
