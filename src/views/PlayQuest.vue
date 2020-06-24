@@ -25,7 +25,7 @@ export default {
         }
     },
     mounted(){
-                axios.get('http://localhost/ols.php')
+                axios.get('http://localhost/quedu_server/ols.php')
                     .then(response => {
                         //console.log(response.data.Name[0][0])
                         setTimeout(()=>{

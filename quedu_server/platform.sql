@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Июн 24 2020 г., 10:28
+-- Время создания: Июн 24 2020 г., 14:44
 -- Версия сервера: 10.3.13-MariaDB-log
 -- Версия PHP: 7.1.32
 
@@ -35,6 +35,22 @@ CREATE TABLE `answers` (
   `True_answer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Дамп данных таблицы `answers`
+--
+
+INSERT INTO `answers` (`Id`, `Question_id`, `Answer`, `True_answer`) VALUES
+(1, 1, 'ответ на вопрос 1 №1', 1),
+(2, 1, 'ответ на вопрос 1 №2', 1),
+(3, 1, 'ответ на вопрос 1 №3', 1),
+(4, 1, 'ответ на вопрос 1 №4', 1),
+(5, 1, 'ответ на вопрос 1 №5', 1),
+(6, 2, 'ответ на вопрос 2 №1', 1),
+(7, 2, 'ответ на вопрос 2 №2', 1),
+(8, 3, 'ссссс', 1),
+(9, 4, 'вапвап', 1),
+(10, 5, 'ввввв', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -54,8 +70,8 @@ CREATE TABLE `quest` (
 --
 
 INSERT INTO `quest` (`Id`, `Name`, `Author_id`, `Description`, `Entry_Level`) VALUES
-(1, 'лололол', 0, 'лололол', 1),
-(2, 'Квест 2', 0, 'л', 1);
+(1, 'Квест проверка', NULL, NULL, NULL),
+(2, 'ясяячсся', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -78,10 +94,11 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`Id`, `Quest_id`, `Number_id`, `Question`, `Time`, `Attempts`, `Reward`) VALUES
-(1, 1, 0, 'Вопрос 1', 0, 1, 1),
-(2, 1, 1, 'Вопрос 2', 0, 1, 1),
-(3, 2, 0, 'Вопрос 1 для квеста 2', 0, 1, 1),
-(4, 2, 1, 'Вопрос 2 для квеста 2', 0, 1, 1);
+(1, 1, 0, 'Вопрос 1', NULL, NULL, 1),
+(2, 1, 1, 'Вопрос 2', NULL, NULL, 1),
+(3, 2, 0, 'ячсячсячсячс', NULL, NULL, 1),
+(4, 2, 1, 'ячсячсячсячс', NULL, NULL, 1),
+(5, 2, 2, 'фыффвыфвы', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -173,7 +190,7 @@ ALTER TABLE `user_answers`
 -- AUTO_INCREMENT для таблицы `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `quest`
@@ -185,7 +202,7 @@ ALTER TABLE `quest`
 -- AUTO_INCREMENT для таблицы `question`
 --
 ALTER TABLE `question`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `quest_answer`

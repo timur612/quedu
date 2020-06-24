@@ -6,20 +6,23 @@
             <h1 v-if="questName!=''">Название квеста - {{questName}}</h1>
         </div>
         <div class="createQuestion" v-if="questName!=''">
+                    
             <ul>
+                
                 <li v-for="(input, index) in inputsQuestion" :key="index">
                     <input type="text" class="inpQuestion" v-model="input.questionValue" placeholder="Вопрос"> <br>
                     <!-- <p> {{input.questionValue}} </p> -->
                     
                     <ul>
-                        <li v-for="(ans, i) in inputsAnswers" :key="i">
+                        <li v-for="(ans,i) in input.answers" :key="i">
                                 <input type="text" class="inpQuestion" v-model="ans.answer" placeholder="Ответ"> <br>
-                                <button @click="deleteAns(i)">Удалить ответ</button>
+                                <button @click="deleteAns(index,i)">Удалить ответ</button>
                         </li>
                     </ul>
-                    <button @click="addAnsw"
-                                v-if="asnVisible"
+                    <button @click="addAnsw(index)"
+                                v-if="input.asnVisible"
                         >Добавить Ответ</button>
+                    
                     <!-- <p> {{input.answer}} </p> -->
                     <button @click="deleteRow(index)">Удалить</button>
                 </li>
@@ -46,10 +49,11 @@ export default {
             questName: "",
             quesions: [],
             answers: [],
+            ansOne: '',
             inputsQuestion:[],
             inputsAnswers:[],
             message: "",
-            asnVisible: true
+            
         }
     },
     methods:{
@@ -59,37 +63,35 @@ export default {
         addRow() {
             this.inputsQuestion.push({
                 questionValue: '',
-                
+                answers: [],
+                asnVisible: true
             })
         },
-        addAnsw(){
-            this.inputsAnswers.push({
-                answer: ''
-            })
-            if(this.inputsAnswers.length>4){
-                this.asnVisible = false
-            }
-            console.log(this.inputsAnswers.length)
-            console.log(this.asnVisible)
+        addAnsw(index){
+            this.inputsQuestion[index].answers.push({  
+                    answer:''
+                })
             
+            if(this.inputsQuestion[index].answers.length > 4){
+                this.inputsQuestion[index].asnVisible = false
+            }
         },
         deleteRow(index) {
             this.inputsQuestion.splice(index,1)
             this.quesions.splice(index)
             
         },
-        deleteAns(index){
-            this.inputsAnswers.splice(index,1)
-            this.answers.splice(index)
+        deleteAns(index,i){
+            this.inputsQuestion[index].answers.splice(i,1)
 
-            if(this.inputsAnswers.length<=5){
-                this.asnVisible = true
+            if(this.inputsQuestion[index].answers.length<=5){
+                this.inputsQuestion[index].asnVisible = true
             }
         },
         addQuestions(){
            for(let i=0;i<this.inputsQuestion.length;i++){
                 this.quesions.push(this.inputsQuestion[i].questionValue)
-                this.answers.push(this.inputsAnswers[i].answer)
+                this.answers.push(this.inputsQuestion[i].answers)
             }  
         },
         sendIdentity: async function() {
@@ -101,8 +103,8 @@ export default {
                     //message: this.message
             };
             const str = JSON.stringify(param);
-            axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-                axios.post('http://localhost/quedu_server/a.php',str)
+    //        axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+                axios.post('http://localhost/quedu_server/test.php',str)
                     .then(function(response) {
                         console.log(response.data);
                     })

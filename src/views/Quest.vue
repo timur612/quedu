@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1>{{questId}}</h1>
-	<div id='1'></div>
     </div>
 </template>
 
@@ -17,14 +16,14 @@ export default {
         }
     },
     created  () {
-   //     console.log(this.$route.query.questId)
+        console.log(this.$route.query.questId)
         this.questId = this.$route.query.questId;
 
         const str = JSON.stringify(this.questId);
-//        axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-            axios.post('http://localhost/question.php',this.questId)
+   //     axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+            axios.post('http://localhost/quedu_server/question.php',this.questId)
                     .then(function(response) {
-                        document.getElementById('1').innerHTML=(response.data);
+                        console.log(response.data);
                     })
                     .catch(function (error) {
                         console.log(error);

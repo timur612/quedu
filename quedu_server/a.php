@@ -5,6 +5,12 @@ header('Access-Control-Allow-Headers: X-Requested-With,Origin,Content-Type,Cooki
 require ("bd.php");
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE);
+
+$yes=count($input[answers]);
+echo $yes;
+$yes=count($input[answers][0]);
+echo "  ".$yes;
+print_r($input);
 $Name=$input[questName];
 
 
@@ -21,8 +27,11 @@ for ($i;$i<$ques;$i++) {
 
 $result_question=mysqli_query ($db,"INSERT INTO question (Quest_id,Number_id,Question) VALUES('$quest_id','$i','".$input["quesions"]["$i"]."')");
 $idd=mysqli_insert_id($db);
-$result_answers=mysqli_query ($db,"INSERT INTO answers (Question_id,Answer,True_answer) VALUES ('$idd','".$input["answers"]["$i"]."','1')");
-echo $idd." вопрос под номером - ".$i."   ";
+$answers_count=count($input[answers][$i]);
+$j=0;
+for ($j;$j<$answers_count;$j++) {
+$result_answers=mysqli_query ($db,"INSERT INTO answers (Question_id,Answer,True_answer) VALUES ('$idd','".$input["answers"]["$i"]["$j"]["answer"]."','1')");
+}
 }
 //print_r ($input);
 ?>
