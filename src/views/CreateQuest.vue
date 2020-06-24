@@ -10,7 +10,16 @@
                 <li v-for="(input, index) in inputsQuestion" :key="index">
                     <input type="text" class="inpQuestion" v-model="input.questionValue" placeholder="Вопрос"> <br>
                     <!-- <p> {{input.questionValue}} </p> -->
-                    <input type="text" class="inpQuestion" v-model="input.answer" placeholder="Ответ"> <br>
+                    
+                    <ul>
+                        <li v-for="(ans, i) in inputsAnswers" :key="i">
+                                <input type="text" class="inpQuestion" v-model="ans.answer" placeholder="Ответ"> <br>
+                                <button @click="deleteAns(i)">Удалить ответ</button>
+                        </li>
+                    </ul>
+                    <button @click="addAnsw"
+                                v-if="asnVisible"
+                        >Добавить Ответ</button>
                     <!-- <p> {{input.answer}} </p> -->
                     <button @click="deleteRow(index)">Удалить</button>
                 </li>
@@ -38,7 +47,9 @@ export default {
             quesions: [],
             answers: [],
             inputsQuestion:[],
-            message: ""
+            inputsAnswers:[],
+            message: "",
+            asnVisible: true
         }
     },
     methods:{
@@ -48,18 +59,37 @@ export default {
         addRow() {
             this.inputsQuestion.push({
                 questionValue: '',
+                
+            })
+        },
+        addAnsw(){
+            this.inputsAnswers.push({
                 answer: ''
             })
+            if(this.inputsAnswers.length>4){
+                this.asnVisible = false
+            }
+            console.log(this.inputsAnswers.length)
+            console.log(this.asnVisible)
+            
         },
         deleteRow(index) {
             this.inputsQuestion.splice(index,1)
             this.quesions.splice(index)
+            
+        },
+        deleteAns(index){
+            this.inputsAnswers.splice(index,1)
             this.answers.splice(index)
+
+            if(this.inputsAnswers.length<=5){
+                this.asnVisible = true
+            }
         },
         addQuestions(){
            for(let i=0;i<this.inputsQuestion.length;i++){
                 this.quesions.push(this.inputsQuestion[i].questionValue)
-                this.answers.push(this.inputsQuestion[i].answer)
+                this.answers.push(this.inputsAnswers[i].answer)
             }  
         },
         sendIdentity: async function() {

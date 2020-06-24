@@ -20,8 +20,8 @@ export default {
         this.questId = this.$route.query.questId;
 
         const str = JSON.stringify(this.questId);
-            axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-                axios.post('http://localhost/quedu_server/question.php',str)
+        axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+            axios.post('http://localhost/quedu_server/question.php',this.questId)
                     .then(function(response) {
                         console.log(response.data);
                     })
