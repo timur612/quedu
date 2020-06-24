@@ -3,12 +3,6 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
 header('Access-Control-Allow-Headers: X-Requested-With,Origin,Content-Type,Cookie,Accept');
 require ("bd.php");
-<<<<<<< Updated upstream
-echo ($inputJSON);
-$inputJSON = file_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE);
-//print_r ($input);
-=======
 function check_true($text_true) {
 	if ($text_true=="да") {return 1;} else {return 0;}
 }
@@ -27,5 +21,4 @@ for ($j;$j<$answers_count;$j++) {
 print_r ($input[answers][$i][$j][rightAns]);
 }
 }
->>>>>>> Stashed changes
 ?>

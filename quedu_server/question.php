@@ -35,13 +35,8 @@ array_push($question_id,$content[Number_id]);
 	}
 while ($content=mysqli_fetch_array($result)); }
 $json='{ 
-<<<<<<< Updated upstream
-"question": ['.trytocount($question).'],
-"question_numbers": ['.trytocount($question_id).'] 
-=======
 "Question": ['.trytocount($question).'],
 "Question_numbers": ['.trytocount($question_id).'] 
->>>>>>> Stashed changes
 }';
 echo $json;
 ?>
