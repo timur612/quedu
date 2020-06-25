@@ -16,16 +16,18 @@
                     <label for="exampleInputPassword1">Password</label>
                     <input type="password" v-model="password" class="form-control" id="exampleInputPassword1">
                 </div>
-                <button type="submit" class="btn btn-primary" @click="registr">Регистрация</button>
+                <button type="button" class="btn btn-primary" @click="registr">Регистрация</button>
             </form>
-            <button class="btn btn-primary">Логин</button>
+            <button style='margin-top:10px;' class="btn btn-primary">Логин</button>
         </div>
-    
-        
     </div>
 </template>
 
 <script>
+import router from '../router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 export default {
     data(){
         return{
@@ -36,9 +38,24 @@ export default {
     },
     methods:{
         registr(){
-            localStorage.setItem("name",this.name)
-            localStorage.setItem("email",this.email)
-            localStorage.setItem("password",this.password)
+		localStorage.setItem("name",this.name);
+            let param = {
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+            };
+            const str = JSON.stringify(param);
+          //  axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+            
+                axios.post('http://localhost/quedu_server/add_user.php',str)
+                    .then(response=> {
+                        console.log(response.data);
+                        localStorage.setItem("Id",response.data.Id)
+                        router.push({ path: '/check',query:{} })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
         }
     },
     created(){

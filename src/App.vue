@@ -10,6 +10,18 @@
   </div>
 </template>
 
+<script>
+import router from './router'
+
+export default {
+  created(){
+    if(localStorage.length==1){
+      router.push({ path: '/regisration' })
+    }
+  }
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
