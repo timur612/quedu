@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import CreateQuest from '../views/CreateQuest.vue'
 import PlayQuest from '../views/PlayQuest.vue'
 import Quest from '../views/Quest.vue'
+import Question from '../views/Question.vue'
+import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -37,7 +39,19 @@ Vue.use(VueRouter)
     path: '/quest',
     name: 'Quest',
     component: Quest
-  }
+  },
+  {
+    path: '/question',
+    name: 'Question',
+    component: Question
+  },
+  {
+    path: '/regisration',
+    name: 'Registration',
+    component: Register
+  },
+
+  
   
 ]
 
