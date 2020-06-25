@@ -4,6 +4,12 @@
         <button @click="goToTheNextQuestion" > далее - {{number_id}} </button>
         <button @click="backToTheQustion"> назад </button>
         <p> {{questionNumber}} </p>
+
+        <ul>
+            <li v-for="(ans,i) in answers" :key="i">
+                {{ans.answer}} - {{ans.true_answer}}
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -19,6 +25,7 @@ export default {
             questId: 0,
             questionNumber: [],
             questionName: [],
+            answers: []
         }
     },
     created(){
@@ -35,24 +42,11 @@ export default {
                     .catch(function (error) {
                         console.log(error);
                     });
-    },
-    mounted(){
-        let param = {
-                    number_id: this.number_id,
-                    questId: this.questId,
-            };
-        const str = JSON.stringify(param);
-
-        axios.post('http://localhost/quedu_server/PUTHERESCRIPT.php',str)
-                .then(response=>{
-                    console.log(response.data)
-                })
-                .catch(e=>{
-                    console.log(e)
-                })
+                this.getAnswers()
     },
     methods:{
         goToTheNextQuestion(){
+            this.answers = []
             let id = this.number_id+1;
             console.log (this.number_id);
             for(let i=0;i<this.questionNumber.length;i++){
@@ -61,8 +55,10 @@ export default {
                    this.number_id = this.$route.query.numberId
                }
            }
+           this.getAnswers()
         },
         backToTheQustion(){
+            this.answers = []
             let id = this.number_id-1
             for(let i=0;i<this.questionNumber.length;i++){
                if(id == this.questionNumber[i]){
@@ -70,6 +66,29 @@ export default {
                    this.number_id = this.$route.query.numberId
                }
            }
+           this.getAnswers()
+        },
+        getAnswers: async function(){
+            let param = {
+                    number_id: this.number_id,
+                    questId: this.questId,
+            };
+        const str = JSON.stringify(param);
+
+        axios.post('http://localhost/quedu_server/answer.php',str)
+                .then(response=>{
+                    console.log(response.data)
+                    for(let i=0;i<response.data.answer.length;i++){
+                        this.answers.push({
+                            answer: response.data.answer[i][0],
+                            true_answer: response.data.true_answer[i][0]
+                        })
+                    }
+                    
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
         }
     }
 }
