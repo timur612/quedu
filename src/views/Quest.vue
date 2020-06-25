@@ -21,6 +21,7 @@ export default {
         return{
             questId: "",
             questionName: [],
+            questionNumber:[],
             loading: true,
         }
     },
@@ -34,6 +35,7 @@ export default {
                         //console.log(response.data.Question.length);
                         for(let i=0;i<response.data.Question.length;i++){
                             this.questionName.push(response.data.Question[i][0])
+                           // console.log(response.data)
                         }
                     })
                     .then(()=>{
@@ -47,7 +49,7 @@ export default {
     methods:{
         goToTheQuest(index){
             //console.log(this.quests[index].id)
-            router.push({ path: '/question',query:{numberId:index} })
+            router.push({ path: '/question',query:{numberId:index,questId:this.questId} })
         },
     },
     components:{
