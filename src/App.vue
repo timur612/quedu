@@ -12,8 +12,33 @@
 
 <script>
 import router from './router'
-
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 export default {
+    data(){
+        return{
+		Hash : "",
+		Id : "",
+        }
+    },
+	mounted() {
+	this.Hash=localStorage.getItem("Hash");
+	this.Id=localStorage.getItem("Id");
+	let param= {
+		Id: this.Id,
+		Hash: this.Hash,
+		}
+	const str = JSON.stringify(param);
+	axios.post('http://localhost/quedu_server/CheckReal.php',param)
+                    .then(response =>{
+                        console.log(response.data);
+						if (response.data=='0') { router.push({ path: '/regisration' })}
+                        }
+                    )
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+},
   created(){
     if(localStorage.length==1){
       router.push({ path: '/regisration' })

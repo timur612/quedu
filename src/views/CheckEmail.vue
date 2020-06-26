@@ -1,20 +1,19 @@
 <template>
-    <div>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=1>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=2>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=3>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=4>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=5>
-
-        <button> Подтвердить </button>
+    <div class="container-fluid">
+		<input v-model="name" aria-describedby="name"class="form-control" style="margin-bottom:20px;">
+        <button @click="Checkit" class="btn btn-primary" style=""> Подтвердить </button>
     </div>
 </template>
 
 <script>
+import router from '../router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 export default {
     data(){
         return{
-
+		name: '',
+		Id: '',
         }
     },
     mounted(){
@@ -31,7 +30,27 @@ export default {
                 $('[tabindex=' + prevTabIndex + ']').focus();
             }
         });
-    }
+    },
+methods :{
+Checkit(){
+		this.Id=localStorage.getItem("Id");
+		let param=  {
+		name: this.name,
+		Id : this.Id,
+		
+		}
+             const str = JSON.stringify(param);
+        axios.post('http://localhost/quedu_server/CheckEmail.php',param)
+                    .then(response =>{
+                        console.log(response.data);
+						localStorage.setItem("Hash",response.data.Hash)
+                        }
+                    )
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+}
+}
 }
 </script>
 
