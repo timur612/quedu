@@ -6,6 +6,7 @@ import PlayQuest from '../views/PlayQuest.vue'
 import Quest from '../views/Quest.vue'
 import Question from '../views/Question.vue'
 import Register from '../views/Register.vue'
+import CheckEmail from '../views/CheckEmail.vue'
 
 Vue.use(VueRouter)
 
@@ -50,7 +51,11 @@ Vue.use(VueRouter)
     name: 'Registration',
     component: Register
   },
-
+  {
+    path: '/check',
+    name: 'Check',
+    component: CheckEmail
+  }
   
   
 ]

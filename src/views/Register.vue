@@ -20,14 +20,14 @@
             </form>
             <button style='margin-top:10px;' class="btn btn-primary">Логин</button>
         </div>
-    
-        
     </div>
 </template>
 
 <script>
+import router from '../router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+
 export default {
     data(){
         return{
@@ -48,9 +48,10 @@ export default {
           //  axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
             
                 axios.post('http://localhost/quedu_server/add_user.php',str)
-                    .then(function(response) {
+                    .then(response=> {
                         console.log(response.data);
-						localStorage.setItem("Id",response.data.Id)
+                        localStorage.setItem("Id",response.data.Id)
+                        router.push({ path: '/check',query:{} })
                     })
                     .catch(function (error) {
                         console.log(error);

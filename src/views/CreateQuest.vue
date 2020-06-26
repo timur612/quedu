@@ -49,7 +49,7 @@ export default {
                     //message: this.message
             };
             const str = JSON.stringify(param);
-     //       axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+            axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
             
                 axios.post('http://localhost/quedu_server/a.php',str)
                     .then(function(response) {

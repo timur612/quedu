@@ -4,12 +4,23 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/create-quest">Создать квест</router-link> |
-      <router-link to="/play-quest">Играть в квест</router-link> |
-	   <router-link to="/regisration">Регистрация</router-link>
+      <router-link to="/play-quest">Играть в квест</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+import router from './router'
+
+export default {
+  created(){
+    if(localStorage.length==1){
+      router.push({ path: '/regisration' })
+    }
+  }
+}
+</script>
 
 <style>
 #app {
