@@ -38,37 +38,45 @@ export default {
                             this.questionNumber.push(response.data.Question_numbers[i][0])
                             this.questionName.push(response.data.Question[i][0])
                         }
+                      
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
-                this.getAnswers()
+                
     },
     methods:{
         goToTheNextQuestion(){
-            this.answers = []
+            //this.answers = []
+            
             let id = this.number_id+1;
+            let max = 0
             console.log (this.number_id);
             for(let i=0;i<this.questionNumber.length;i++){
-               if(id == this.questionNumber[i]){
-                   router.push({ path: '/question',query:{numberId: id,questId:this.questId} })
-                   this.number_id = this.$route.query.numberId
-               }
+                let maxArr = []
+                maxArr.push(i)
+                if(id == this.questionNumber[i]){
+                    router.push({ path: '/question',query:{numberId: id,questId:this.questId} })
+                    this.number_id = this.$route.query.numberId
+                }
            }
-           this.getAnswers()
+
+           
+           
         },
         backToTheQustion(){
-            this.answers = []
+            //this.answers = []
             let id = this.number_id-1
             for(let i=0;i<this.questionNumber.length;i++){
                if(id == this.questionNumber[i]){
                    router.push({ path: '/question',query:{numberId: id,questId:this.questId} })
                    this.number_id = this.$route.query.numberId
+                  
                }
            }
-           this.getAnswers()
+           
         },
-        getAnswers: async function(){
+        getAnswers(){
             let param = {
                     number_id: this.number_id,
                     questId: this.questId,

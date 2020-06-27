@@ -1,20 +1,29 @@
 <template>
     <div>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=1>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=2>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=3>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=4>
-        <input class="number_input text-center" type="number" maxlength="1" tabindex=5>
+        <p>Подтвердите свою почту кодом из вашей почты.</p>
+        <input class="number_input text-center" v-model="l1" type="number" maxlength="1" tabindex=1>
+        <input class="number_input text-center" v-model="l2" type="number" maxlength="1" tabindex=2>
+        <input class="number_input text-center" v-model="l3" type="number" maxlength="1" tabindex=3>
+        <input class="number_input text-center" v-model="l4" type="number" maxlength="1" tabindex=4>
+        <input class="number_input text-center" v-model="l5" type="number" maxlength="1" tabindex=5>
 
-        <button> Подтвердить </button>
+        <button @click="checkHash"> Подтвердить </button>
     </div>
 </template>
 
 <script>
+import router from '../router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 export default {
     data(){
         return{
-
+            l1:'',
+            l2:'',
+            l3:'',
+            l4:'',
+            l5:'',
         }
     },
     mounted(){
@@ -31,6 +40,31 @@ export default {
                 $('[tabindex=' + prevTabIndex + ']').focus();
             }
         });
+    },
+    methods:{
+        checkHash(){
+            let hash = String(this.l1) + String(this.l2) + String(this.l3) + String(this.l4) + String(this.l5)
+            //let hash = this.l1 + this.l2 + this.l3 + this.l4 + this.l5
+            console.log(hash)
+
+            let json = {
+                Id: localStorage.Id,
+                name: localStorage.name,
+                hash: hash
+            }
+
+            const str = JSON.stringify(json);
+
+            axios.post('http://localhost/quedu_server/CheckEmail.php',str)
+                .then((response)=>{
+                    console.log(response.data)
+                    localStorage.setItem('hash',response.data.Hash)
+                    router.push({ path: '/play-quest' })
+                })
+                .catch((e)=>{
+                    console.log(e)
+                })
+        },
     }
 }
 </script>

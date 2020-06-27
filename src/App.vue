@@ -1,22 +1,44 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/create-quest">Создать квест</router-link> |
-      <router-link to="/play-quest">Играть в квест</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
 import router from './router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 export default {
   created(){
-    if(localStorage.length==1){
-      router.push({ path: '/regisration' })
+   
+  },
+  mounted(){
+    setTimeout(()=>{
+      this.checkUser()
+    },1500)
+    
+  },
+  methods:{
+    checkUser(){
+        let user={
+            id: localStorage.Id,
+            hash: localStorage.hash 
+        }
+        const json = JSON.stringify(user);
+        axios.post('http://localhost/quedu_server/checkReal.php',json)
+              .then(response=>{
+                  console.log(response.data)
+                  if(response.data==0){
+                    localStorage.clear()
+                  }
+                  else if(response.data=="200"){
+                    console.log('надо зарегаться или залогиниться')
+                  }
+              })
+              .catch(e=>{
+                  console.log(e)
+              })
     }
   }
 }
@@ -29,18 +51,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>

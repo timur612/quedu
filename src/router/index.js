@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
+
 import Home from '../views/Home.vue'
 import CreateQuest from '../views/CreateQuest.vue'
 import PlayQuest from '../views/PlayQuest.vue'
@@ -14,7 +16,10 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { 
+      requiresAuth: true
+    }
   },
   {
     path: '/about',
@@ -29,22 +34,34 @@ Vue.use(VueRouter)
   {
     path: '/create-quest',
     name: 'Create Quest',
-    component: CreateQuest
+    component: CreateQuest,
+    meta: { 
+      requiresAuth: true
+    }
   },
   {
     path: '/play-quest',
     name: 'Play Quest',
-    component: PlayQuest
+    component: PlayQuest,
+    meta: { 
+      requiresAuth: true
+    }
   },
   {
     path: '/quest',
     name: 'Quest',
-    component: Quest
+    component: Quest,
+    meta: { 
+      requiresAuth: true
+    }
   },
   {
     path: '/question',
     name: 'Question',
-    component: Question
+    component: Question,
+    meta: { 
+      requiresAuth: true
+    }
   },
   {
     path: '/regisration',
@@ -55,7 +72,24 @@ Vue.use(VueRouter)
     path: '/check',
     name: 'Check',
     component: CheckEmail
-  }
+  },
+   {
+    path: '/login',
+    name: 'Login',
+    component: function () {
+      return import('../views/Login.vue')
+    }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: function () {
+      return import('../views/Profile.vue')
+    },
+    meta: { 
+      requiresAuth: true
+    }
+  },
   
   
 ]
@@ -66,4 +100,15 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login') 
+  } else {
+    next() 
+  }
+})
 export default router

@@ -18,7 +18,7 @@
                 </div>
                 <button type="button" class="btn btn-primary" @click="registr">Регистрация</button>
             </form>
-            <button style='margin-top:10px;' class="btn btn-primary">Логин</button>
+            <button @click="goToLogin" style='margin-top:10px;' class="btn btn-primary">Логин</button>
         </div>
     </div>
 </template>
@@ -38,24 +38,35 @@ export default {
     },
     methods:{
         registr(){
-		localStorage.setItem("name",this.name);
+		if(this.name!='' && this.password!='', this.email!=''){
             let param = {
                     name: this.name,
                     email: this.email,
                     password: this.password,
             };
             const str = JSON.stringify(param);
-          //  axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+            this.$store.dispatch('register', str)
+                .then(() => this.$router.push('/'))
+                .catch(err => console.log(err))
+        }else{
+            alert("Заполни все!")
+        }
             
-                axios.post('http://localhost/quedu_server/add_user.php',str)
-                    .then(response=> {
-                        console.log(response.data);
-                        localStorage.setItem("Id",response.data.Id)
-                        router.push({ path: '/check',query:{} })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+          //  axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
+               // axios.defaults.withCredentials = true
+                // axios.post('http://localhost/quedu_server/add_user.php',str)
+                //     .then(response=> {
+                //         console.log(response.data);
+                //         localStorage.setItem("Id",response.data.Id)
+                //         localStorage.setItem("name",this.name);
+                //         router.push({ path: '/check',query:{} })
+                //     })
+                //     .catch(function (error) {
+                //         console.log(error);
+                //     });
+        },
+        goToLogin(){
+            router.push({path:'/login'})
         }
     },
     created(){
