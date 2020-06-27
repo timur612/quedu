@@ -4,7 +4,7 @@
         <Loader v-if="loading"/>
         <ul>
             <li v-for="(name,index) in questionName" :key="index">
-                <button @click="goToTheQuest(index)">{{name}}</button>
+                <button class="btn btn-primary" style="margin-bottom:10px;" @click="goToTheQuest(index)">{{name}}</button>
             </li>
         </ul>
     </div>
