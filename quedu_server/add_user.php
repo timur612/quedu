@@ -21,8 +21,8 @@ $code_proverki=mt_rand(10000,99999);
 $result=mysqli_query ($db,"INSERT INTO users (Name,Login,Password,Hash) VALUES ('$name','$email','$password','$code_proverki')");
 $result=mysqli_query ($db,"SELECT * FROM users WHERE login='$email'");
 $content2=mysqli_fetch_array($result);
-
-	$mail = new PHPMailer(true);                              
+try {
+	$mail = new PHPMailer(true);             	
 	$mail->CharSet = 'utf-8';
 	$mail->setLanguage('ru', '/phpmailer/phpmailer/language/'); 
 				//Options
@@ -44,7 +44,8 @@ $content2=mysqli_fetch_array($result);
 
 //данное письмо пришло автоматически, не отвечайте на него.";
 	$mail->send();
-
+}
+	catch (Exception $e){}
 print (' {
 "Id" :	"'.$content2[Id].'"
 }
